@@ -7,70 +7,34 @@
     ../../wm/xmonad.nix
   ];
 
-  boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+  boot.initrd.availableKernelModules = [ "vmd" "xhci_pci" "ahci" "nvme" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-intel" ];
+  boot.extraModulePackages = [ ];
 
-    # Use the systemd-boot EFI boot loader.
-    loader = {
-      efi.canTouchEfiVariables = true;
-      systemd-boot.enable = true;
+  fileSystems."/" =
+    { device = "/dev/disk/by-uuid/d92937ff-a50a-4c6c-a9b7-62c18ae9099f";
+      fsType = "ext4";
     };
 
-    initrd.kernelModules = [ "amdgpu" ];
-  };
-
-  networking = {
-    hostName = "tongfang-amd";
-    interfaces = {
-      eno1.useDHCP = true;
-      wlp1s0.useDHCP = true;
+  fileSystems."/boot" =
+    { device = "/dev/disk/by-uuid/ED93-351C";
+      fsType = "vfat";
+      options = [ "fmask=0077" "dmask=0077" ];
     };
-  };
 
-  fileSystems."/data" = {
-    device = "/dev/nvme0n1p3";
-    fsType = "ext4";
-  };
-
-  services.sysprof.enable = true;
-
-  services.xserver = {
-    videoDrivers = [ "amdgpu" ];
-
-    xrandrHeads = [
-      {
-        output = "HDMI-A-0";
-        primary = true;
-        monitorConfig = ''
-          Modeline "3840x2160_30.00"  338.75  3840 4080 4488 5136  2160 2163 2168 2200 -hsync +vsync
-          Option "PreferredMode" "3840x2160_30.00"
-          Option "Position" "0 0"
-        '';
-      }
-      {
-        output = "eDP";
-        primary = false;
-        monitorConfig = ''
-          Option "PreferredMode" "1920x1080"
-          Option "Position" "0 0"
-        '';
-      }
+  swapDevices =
+    [ { device = "/dev/disk/by-uuid/0dd9375b-bd4f-4d97-a321-a2128737090f"; }
     ];
 
-    resolutions = [
-      { x = 2048; y = 1152; }
-      { x = 1920; y = 1080; }
-      { x = 2560; y = 1440; }
-      { x = 3072; y = 1728; }
-      { x = 3840; y = 2160; }
-    ];
-  };
+  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
+  # (the default) this is the recommended approach. When using systemd-networkd it's
+  # still possible to use this option, but it's recommended to use it in conjunction
+  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
+  networking.useDHCP = lib.mkDefault true;
+  # networking.interfaces.enp6s0.useDHCP = lib.mkDefault true;
+  # networking.interfaces.wlo1.useDHCP = lib.mkDefault true;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "21.03"; # Did you read the comment?
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
