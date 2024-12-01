@@ -13,6 +13,14 @@
   boot.kernelModules = [ "kvm-intel" ];
   boot.extraModulePackages = [ ];
 
+  networking = {
+    hostName = "tongfang-amd";
+    interfaces = {
+      eno1.useDHCP = true;
+      wlp1s0.useDHCP = true;
+    };
+  };
+
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/d92937ff-a50a-4c6c-a9b7-62c18ae9099f";
       fsType = "ext4";
