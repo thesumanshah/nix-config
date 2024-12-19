@@ -42,7 +42,7 @@ in
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Set your time zone.
-  time.timeZone = "Europe/Warsaw";
+  time.timeZone = "Australia/Sydeny";
 
   # List packages installed in system profile
   environment.systemPackages = with pkgs; [
@@ -82,7 +82,7 @@ in
     };
   };
 
-  users.extraGroups.vboxusers.members = [ "gvolpe" ];
+  users.extraGroups.vboxusers.members = [ "king" ];
 
   security.rtkit.enable = true;
 
