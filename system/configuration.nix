@@ -139,7 +139,7 @@ in
   programs.fish.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.gvolpe = {
+  users.users.king = {
     isNormalUser = true;
     # wheel for 'sudo', uucp for bazecor to access ttyAMC0 (keyboard firmware updates)
     extraGroups = [ "docker" "networkmanager" "wheel" "scanner" "lp" "uucp" ];
