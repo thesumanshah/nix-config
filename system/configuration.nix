@@ -179,7 +179,7 @@ in
       auto-optimise-store = true;
 
       # Required by Cachix to be used as non-root user
-      trusted-users = [ "root" "gvolpe" ];
+      trusted-users = [ "root" "king" ];
 
       experimental-features = [ "nix-command" "flakes" ];
       warn-dirty = false;
