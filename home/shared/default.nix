@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 let
-  username = "gvolpe";
+  username = "king";
   homeDirectory = "/home/${username}";
   configHome = "${homeDirectory}/.config";
 
