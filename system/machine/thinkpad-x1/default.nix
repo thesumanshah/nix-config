@@ -19,7 +19,7 @@
   };
 
   # Enable networking
-  networking.hostName = "thinkpad-x1";
+  networking.hostName = "kong";
 
   # intel webcam workaround (a bit buggy, does not work with latest linux kernels)
   # needs: kernelPackages = pkgs.linuxPackages_6_6;
