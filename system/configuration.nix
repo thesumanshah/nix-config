@@ -50,6 +50,7 @@ in
     nix-schema
     vim
     wget
+    pkgs.kitty
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
