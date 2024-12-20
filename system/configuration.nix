@@ -151,7 +151,7 @@ in
     # Yubikey login & sudo
     pam.yubico = {
       enable = true;
-      debug = true;
+      debug = false;
       mode = "challenge-response";
     };
 
